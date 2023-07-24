@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/xml"
+
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/contract"
 )
 
@@ -33,6 +34,7 @@ type CallbackMessageHeader struct {
 	MsgType      string   `xml:"MsgType"`
 	Event        string   `xml:"Event"`
 	ChangeType   string   `xml:"ChangeType"`
+	SessionFrom  string   `xml:"SessionFrom"`
 	Content      []byte
 }
 
@@ -66,4 +68,8 @@ func (header CallbackMessageHeader) ReadMessage(msg interface{}) error {
 
 func (header CallbackMessageHeader) GetContent() []byte {
 	return header.Content
+}
+
+func (header CallbackMessageHeader) GetSessionFrom() string {
+	return header.SessionFrom
 }

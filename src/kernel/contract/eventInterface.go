@@ -11,6 +11,7 @@ type EventInterface interface {
 	GetChangeType() string
 	ReadMessage(msg interface{}) error
 	GetContent() []byte
+	GetSessionFrom() string
 }
 
 type EventHandlerInterface interface {
