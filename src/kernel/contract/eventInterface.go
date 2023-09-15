@@ -12,6 +12,8 @@ type EventInterface interface {
 	ReadMessage(msg interface{}) error
 	GetContent() []byte
 	GetSessionFrom() string
+	GetMiniGameEventPayload() string
+	GetMiniGameEventIsMock() bool
 }
 
 type EventHandlerInterface interface {

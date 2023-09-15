@@ -26,15 +26,16 @@ const (
 
 type CallbackMessageHeader struct {
 	contract.EventInterface
-	XMLName      xml.Name `xml:"xml"`
-	Text         string   `xml:",chardata"`
-	ToUserName   string   `xml:"ToUserName"`
-	FromUserName string   `xml:"FromUserName"`
-	CreateTime   string   `xml:"CreateTime"`
-	MsgType      string   `xml:"MsgType"`
-	Event        string   `xml:"Event"`
-	ChangeType   string   `xml:"ChangeType"`
-	SessionFrom  string   `xml:"SessionFrom"`
+	XMLName      xml.Name      `xml:"xml"`
+	Text         string        `xml:",chardata"`
+	ToUserName   string        `xml:"ToUserName"`
+	FromUserName string        `xml:"FromUserName"`
+	CreateTime   string        `xml:"CreateTime"`
+	MsgType      string        `xml:"MsgType"`
+	Event        string        `xml:"Event"`
+	ChangeType   string        `xml:"ChangeType"`
+	SessionFrom  string        `xml:"SessionFrom"`
+	MiniGame     MiniGameEvent `xml:"MiniGame"` //小程序虚拟支付
 	Content      []byte
 }
 
@@ -72,4 +73,17 @@ func (header CallbackMessageHeader) GetContent() []byte {
 
 func (header CallbackMessageHeader) GetSessionFrom() string {
 	return header.SessionFrom
+}
+
+func (header CallbackMessageHeader) GetMiniGameEventPayload() string {
+	return header.MiniGame.Payload
+}
+
+func (header CallbackMessageHeader) GetMiniGameEventIsMock() bool {
+	return header.MiniGame.IsMock
+}
+
+type MiniGameEvent struct {
+	Payload string `xml:"Payload"`
+	IsMock  bool   `xml:"IsMock"`
 }
