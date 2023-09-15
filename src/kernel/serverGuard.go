@@ -7,12 +7,6 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
-	logger2 "github.com/ArtisanCloud/PowerLibs/v3/logger"
-	"github.com/ArtisanCloud/PowerLibs/v3/object"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/contract"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/messages"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/models"
-	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/support"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -20,9 +14,17 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	logger2 "github.com/ArtisanCloud/PowerLibs/v3/logger"
+	"github.com/ArtisanCloud/PowerLibs/v3/object"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/contract"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/messages"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/models"
+	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/support"
 )
 
 const SUCCESS_EMPTY_RESPONSE = "success"
+const SUCCESS_MINIGAME_COIN_DELIVER_COMPLETED_RESPONSE = "<xml><ErrCode>0</ErrCode><ErrMsg>Success</ErrMsg></xml>"
 
 var MESSAGE_TYPE_MAPPING = map[string]int{
 	"*":               messages.VOID,
@@ -284,6 +286,8 @@ func (serverGuard *ServerGuard) buildResponse(request *http.Request, to string, 
 		strMessage := message.(string)
 		if SUCCESS_EMPTY_RESPONSE == strMessage {
 			return SUCCESS_EMPTY_RESPONSE
+		} else if SUCCESS_MINIGAME_COIN_DELIVER_COMPLETED_RESPONSE == strMessage {
+			return SUCCESS_MINIGAME_COIN_DELIVER_COMPLETED_RESPONSE
 		} else {
 			toMessage = messages.NewText(message.(string))
 			break
