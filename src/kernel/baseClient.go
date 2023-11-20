@@ -5,6 +5,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"strconv"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/http/contract"
 	"github.com/ArtisanCloud/PowerLibs/v3/http/helper"
 	contract2 "github.com/ArtisanCloud/PowerLibs/v3/logger/contract"
@@ -14,10 +19,6 @@ import (
 	request2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/request"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/support"
-	"io"
-	"io/ioutil"
-	"net/http"
-	"strconv"
 )
 
 type BaseClient struct {
@@ -239,7 +240,11 @@ func (client *BaseClient) Request(ctx context.Context, url string, method string
 
 		// set body json
 		if (*options)["form_params"] != nil {
-			df.Json((*options)["form_params"])
+			body := &power.JsonEncoder{
+				Data: (*options)["form_params"],
+			}
+			df.Any(body)
+			//df.Json((*options)["form_params"])
 		}
 	}
 
